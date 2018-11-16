@@ -48,7 +48,9 @@ export default {
                     console.log('check room', result);
                     if (!result) {
                         database.ref('room/' + self.room).set({
-                            name: self.room
+                            name: self.room,
+                            turnPlayer: '',
+                            readyThumbs: 0
                         })
                             .then(response => {
                                 console.log('set room name', response);
@@ -77,6 +79,8 @@ export default {
                 console.log('get all rooms', snapshot.val());
                 let result = snapshot.val();
                 self.roomList = Object.keys(result);
+                let values = Object.values(result);
+                console.log(values);
             });
         }
     },

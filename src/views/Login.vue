@@ -30,10 +30,16 @@ export default {
             } else {
                 database.ref('room/' + self.room + '/users').push({
                     username: self.username,
-                    status: 'playing'
+                    isMyTurn: false,
+                    totalThumbs: 2,
+                    inputThumb: 0,
+                    prediction: 0,
+                    available: true,
+                    isThumbSet: false
                 })
                     .then(response => {
                         localStorage.setItem('userid', response.key);
+                        localStorage.setItem('username', self.username);
                         self.username = '';
                         self.$router.push('/room');
                     })
