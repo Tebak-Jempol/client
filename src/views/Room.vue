@@ -5,31 +5,56 @@
                 <p class="text-white">Currently playing: </p>
                 {{ players[indexCurrentPlayer].username }}
             </div>
-            <p class="waiting" v-if="initialized === false">Waiting for opponent
-                <span>
-                    <div class="loader">
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    </div>
-                </span>
-            </p>
-            <div v-if="isCurrentlyPlaying">
-                <label for="">PREDICTION</label>
-                <input type="text" v-model="prediction" class="form-control">
-                <button class="btn btn-primary" @click="setPrediction">Submit</button>
+            <div class="bg-darkn text-white">
+
+                <p class="waiting bg-dark text-white" v-if="initialized === false">Waiting for opponent
+                    <span>
+                        <div class="loader">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        </div>
+                    </span>
+                </p>
             </div>
-            <div v-if="predictionSet">
+            <form @submit.prevent="setPrediction()">
+                <div v-if="isCurrentlyPlaying" class="d-flex flex-column justify-content-center" >
+                    <label for="">PREDICTION</label>
+                    
+                    <input type="number" v-model="prediction" class="form-control">
+                    <button class="btn btn-primary" type="">Submit</button>
+                </div>
+            </form>
+            
+            <div v-if="predictionSet" class="d-flex flex-column justify-content-center">
                 <label for="">INPUT THUMB</label>
-                <input type="text" v-model="inputThumb" class="form-control">
-                <button class="btn btn-primary" @click="setInputThumb">Submit</button>
+                <div class="mx-auto">
+                    <div class="about">
+                        <div>
+                            <img src="@/assets/jempolTrue.gif" style="width: 200px; height:auto;" v-if="jempolTrue" />
+                            <img src="@/assets/jempol1.gif" style="width: 200px; height:auto;" v-if="jempol1" />
+                            <img src="@/assets/jempol2.gif" style="width: 200px; height:auto;" v-if="jempol2" />
+                            <img src="@/assets/jempol0.gif" style="width: 200px; height:auto;" v-if="jempol0" />
+                        </div>
+                        <div class="footer">
+                            <button @click="jempol1 = false; jempol2 = false; jempol0 = true; jempolTrue = false; inputThumb=0; ">0</button>
+                            <button @click="jempol1 = true; jempol2 = false; jempol0 = false; jempolTrue = false; inputThumb=1; ">1</button>
+                            <button @click="jempol1 = false; jempol2 = true; jempol0 = false; jempolTrue = false; inputThumb=2; ">2</button>
+                            
+                        </div>
+                    </div>
+                </div>
+                    <input type="hidden" v-model="inputThumb" class="form-control">
+                    <button class="btn btn-primary" @click="setInputThumb">Submit</button>
+         
             </div>
-            {{ predictionSet }}
+            
         </div>
         <div v-if="gameOver">
             <div class="display-2">
                 Game Over!!!
             </div>
+            <button class="btn btn-danger" @click="backToLobby">back to lobby</button>
         </div>
         <div v-if="winner">
 
@@ -38,10 +63,15 @@
 </template>
 
 <script>
-import database from '../fire'
+import database from '../assets/config'
+import RuangPlayer from '@/components/RuangPlayer.vue'
+import { functions } from 'firebase';
 
 export default {
     name: 'room',
+    components: {
+        RuangPlayer
+    },
     data() {
         return {
             initialized: false,
@@ -64,6 +94,11 @@ export default {
             inputThumb: 0,
             counter: 0,
             currentPlayerId: '',
+            jempolTrue: false,
+            jempol1: false,
+            jempol2: false,
+            jempol0: true,
+            dataJempol : 0
         }
     },
     methods: {
@@ -84,6 +119,10 @@ export default {
                 });
             })
         },  
+        terimaJempol: function(value){
+            this.inputThumb = value
+            console.log('====',value)
+        },
         checkTurnPlayer: function() {
             return new Promise ((resolve, reject) => {
                 let self = this;
@@ -373,4 +412,14 @@ export default {
   50% {opacity: 0.3; transform: scale(1.2);}
   100% {transform: scale(1);}
 }
+.about{
+        position: relative;
+        border: 7px solid; width: 250px; height: 250px;
+    }
+    .footer{
+        position: absolute;
+        bottom: 5px;
+        text-align: center;
+        width: 100%;
+    }
 </style>

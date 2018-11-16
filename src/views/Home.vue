@@ -1,10 +1,10 @@
 <template>
     <div class="home">
         <div class="mt-4 mb-5 d-flex align-items-center justify-content-center mr-5">
-            <div class="display-3">The Bloody Hangman</div>
+            <div class="display-3">Two Thumbs Up!</div>
         </div>
         <div class="alert mb-0 container col-7" id="alert-subtitle">
-            <h3 id="subtitle">Interested to try a thrilling hangman game? Immediately make a room below!</h3>
+            <h3 id="subtitle">Maen jempol yuks!</h3>
         </div>
         <div class="d-flex justify-content-center align-items-center mb-4 col-9 m-auto p-3 rounded" id="divroom">
             <div class="mr-5 d-flex align-items-center">

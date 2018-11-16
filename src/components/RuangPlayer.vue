@@ -7,9 +7,10 @@
             <img src="@/assets/jempol0.gif" style="width: 200px; height:auto;" v-if="jempol0" />
         </div>
         <div class="footer">
-            <button @click="jempol1 = false; jempol2 = false; jempol0 = true; jempolTrue = false;">0</button>
-            <button @click="jempol1 = true; jempol2 = false; jempol0 = false; jempolTrue = false;">1</button>
-            <button @click="jempol1 = false; jempol2 = true; jempol0 = false; jempolTrue = false;">2</button>
+            <button @click="jempol1 = false; jempol2 = false; jempol0 = true; jempolTrue = false; dataJempol=0; addInput">0</button>
+            <button @click="jempol1 = true; jempol2 = false; jempol0 = false; jempolTrue = false; dataJempol=1; addInput">1</button>
+            <button @click="jempol1 = false; jempol2 = true; jempol0 = false; jempolTrue = false; dataJempol=2; addInput">2</button>
+            
         </div>
     </div>
 </template>
@@ -23,8 +24,15 @@ export default {
             jempol1: false,
             jempol2: false,
             jempol0: true,
+            dataJempol : 0
         };
     },
+    methods: {
+        addInput(){
+            this.$emit('send-jempol', this.dataJempol)
+            console.log(this.dataJempol)
+        }
+    }
 }
 </script>
 
